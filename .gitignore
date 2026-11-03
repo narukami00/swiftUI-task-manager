@@ -1,0 +1,12 @@
+.DS_Store
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+.swiftpm/
+FirebaseConfig/*.plist
+!FirebaseConfig/.gitkeep
+node_modules/
+*-debug.log
+.firebase/
+.env*
