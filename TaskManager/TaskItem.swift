@@ -39,13 +39,13 @@ struct TaskDraft {
     var notes: String
 
     var trimmedTitle: String { title.trimmingCharacters(in: .whitespacesAndNewlines) }
-    // Count Unicode scalars to match Firestore rule string sizes, including emoji.
+    // Count UTF-16 units to match the tested Firestore rule limits, including emoji.
     var isValid: Bool {
-        (1...120).contains(trimmedTitle.unicodeScalars.count) && notes.unicodeScalars.count <= 500
+        (1...120).contains(trimmedTitle.utf16.count) && notes.utf16.count <= 500
     }
 
     func validate() throws {
-        guard (1...120).contains(trimmedTitle.unicodeScalars.count) else { throw TaskInputError.invalidTitle }
-        guard notes.unicodeScalars.count <= 500 else { throw TaskInputError.invalidNotes }
+        guard (1...120).contains(trimmedTitle.utf16.count) else { throw TaskInputError.invalidTitle }
+        guard notes.utf16.count <= 500 else { throw TaskInputError.invalidNotes }
     }
 }

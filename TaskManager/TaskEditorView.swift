@@ -23,13 +23,13 @@ struct TaskEditorView: View {
             Form {
                 Section("What needs doing?") {
                     TextField("Task title", text: $draft.title, axis: .vertical).lineLimit(1...4)
-                    Text("\(draft.trimmedTitle.unicodeScalars.count)/120")
+                    Text("\(draft.trimmedTitle.utf16.count)/120")
                         .font(.caption).foregroundStyle(.secondary)
                 }
                 Section("Short description") {
                     TextField("Add a few details (optional)", text: $draft.notes, axis: .vertical)
                         .lineLimit(4...10)
-                    Text("\(draft.notes.unicodeScalars.count)/500")
+                    Text("\(draft.notes.utf16.count)/500")
                         .font(.caption).foregroundStyle(.secondary)
                 }
                 if store.isWriting {

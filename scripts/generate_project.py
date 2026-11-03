@@ -34,7 +34,7 @@ for mode in ['Debug', 'Release']:
     else:
         common += ' SWIFT_COMPILATION_MODE = wholemodule; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";'
     obj('project'+mode, f'isa = XCBuildConfiguration; buildSettings = {{ {common} }}; name = {mode};')
-    target = 'PRODUCT_BUNDLE_IDENTIFIER = com.rafsan.TaskManager; PRODUCT_NAME = "$(TARGET_NAME)"; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = TaskManager; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES; TARGETED_DEVICE_FAMILY = "1,2"; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; MARKETING_VERSION = 1.0; ENABLE_PREVIEWS = YES; SWIFT_EMIT_LOC_STRINGS = YES;'
+    target = 'PRODUCT_BUNDLE_IDENTIFIER = com.rafsan.TaskManager; PRODUCT_NAME = "$(TARGET_NAME)"; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = TaskManager; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES; TARGETED_DEVICE_FAMILY = "1,2"; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; MARKETING_VERSION = 1.0; ENABLE_PREVIEWS = YES; SWIFT_EMIT_LOC_STRINGS = YES; OTHER_LDFLAGS = ("$(inherited)", "-ObjC"); INFOPLIST_KEY_FirebaseAppDelegateProxyEnabled = NO;'
     obj('target'+mode, f'isa = XCBuildConfiguration; buildSettings = {{ {target} }}; name = {mode};')
 for scope in ['project','target']:
     obj(scope+'configs', f'isa = XCConfigurationList; buildConfigurations = ({refs([scope+"Debug",scope+"Release"])}); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;')

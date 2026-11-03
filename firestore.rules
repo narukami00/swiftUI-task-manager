@@ -10,7 +10,7 @@ service cloud.firestore {
         return d.keys().hasAll(['title', 'notes', 'isDone', 'createdAt', 'updatedAt'])
           && d.keys().hasOnly(['title', 'notes', 'isDone', 'createdAt', 'updatedAt'])
           && d.title is string && d.title.size() >= 1 && d.title.size() <= 120
-          && d.title.matches('.*[^\\s].*')
+          && d.title.matches('[\\s\\S]*[^\\s][\\s\\S]*')
           && d.notes is string && d.notes.size() <= 500
           && d.isDone is bool
           && d.createdAt is timestamp && d.updatedAt is timestamp;
