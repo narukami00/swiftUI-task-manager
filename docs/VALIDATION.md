@@ -12,10 +12,18 @@
 
 - Swift compilation, package resolution and native project import in Xcode. Neither Xcode nor an iOS SDK is installed on this Windows host.
 - Simulator/device UI, session restoration and live Firebase email/password authentication.
-- The user's Firebase configuration, enabled services and deployed rules. No real plist was supplied during implementation.
 - Physical-device signing and distribution.
 
 Follow `FIREBASE_SETUP.md` on a Mac to complete these checks. The app source is implemented; end-to-end verification is pending.
+
+## Live Firebase configuration follow-up
+
+- Validated the supplied local `FirebaseConfig/GoogleService-Info.plist`: project `swiftytask-9cf50`, bundle ID `com.rafsan.TaskManager`, and required client identifiers present. The file remains excluded from Git and is already included by the Xcode resource folder.
+- Confirmed the live `(default)` database is Standard edition / Firestore Native.
+- Read the live Authentication configuration: email sign-in enabled and password required.
+- Successfully deployed `firestore.rules` and `firestore.indexes.json` to `swiftytask-9cf50` using the signed-in Firebase CLI. Firebase compiled and released the rules successfully.
+- Added `.firebaserc` so future CLI operations default to this project. Emulator tests still explicitly target `demo-task-manager`.
+- No live user accounts or task documents were created. Actual iOS sign-in and task operations still need the Xcode first-run checklist.
 
 ## Tooling note
 

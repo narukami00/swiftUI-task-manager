@@ -1,6 +1,7 @@
 """Small structural check; deliberately does not claim to compile Swift."""
 from pathlib import Path
 import json
+import plistlib
 import re
 import subprocess
 import xml.etree.ElementTree as ET
@@ -20,9 +21,23 @@ for file in (root / 'TaskManager').glob('*.swift'):
 assert 'lastKnownFileType = folder; path = FirebaseConfig;' in text
 assert 'version = 12.19.3;' in text
 ET.parse(root / 'TaskManager.xcodeproj/xcshareddata/xcschemes/TaskManager.xcscheme')
-for file in ['firebase.json', 'firestore.indexes.json', 'package.json']:
+for file in ['firebase.json', 'firestore.indexes.json', 'package.json', '.firebaserc']:
     json.loads((root / file).read_text(encoding='utf-8-sig'))
 assert 'FirebaseConfig/*.plist' in (root / '.gitignore').read_text(encoding='utf-8-sig')
 tracked = subprocess.check_output(['git', 'ls-files'], cwd=root, text=True)
 assert not any(p.endswith('.plist') for p in tracked.splitlines()), 'Firebase config should transfer separately'
+config = root / 'FirebaseConfig/GoogleService-Info.plist'
+if config.exists():
+    options = plistlib.loads(config.read_bytes())
+    expected_project = json.loads((root / '.firebaserc').read_text())['projects']['default']
+    bundle_ids = set(re.findall(r'PRODUCT_BUNDLE_IDENTIFIER = ([^;]+);', text))
+    assert options.get('PROJECT_ID') == expected_project, 'Firebase project mismatch'
+    assert bundle_ids == {options.get('BUNDLE_ID')}, 'Firebase bundle ID mismatch'
+    for key in ['GOOGLE_APP_ID', 'API_KEY', 'GCM_SENDER_ID']:
+        assert options.get(key), f'Firebase configuration missing {key}'
+    ignored = subprocess.run(['git', 'check-ignore', '--quiet', str(config)], cwd=root)
+    assert ignored.returncode == 0, 'Firebase configuration must remain excluded from Git'
+    print(f'PASS: local Firebase plist matches {expected_project} and the Xcode bundle ID')
+else:
+    print('NOTE: Firebase plist not present; transfer it separately before running the app')
 print('PASS: deterministic project, source membership, object references, scheme XML, JSON, config exclusion')

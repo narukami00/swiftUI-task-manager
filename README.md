@@ -31,6 +31,8 @@ Firebase SDK 12.19.3 is pinned in the Xcode project. The iOS app needs no Node, 
 
 See [checks](docs/TESTING.md) and [actual validation status](docs/VALIDATION.md). This app has not yet been compiled or run in Xcode.
 
+Firebase project `swiftytask-9cf50` is configured locally. Its default Firestore database and Email/Password provider were verified, and the repository rules/index configuration was deployed. The supplied plist matches the app and stays outside Git; copy it separately when moving to the Mac.
+
 ## Code map
 
 - `TaskManagerApp.swift`: Firebase bootstrap and signed-in/signed-out routing.
