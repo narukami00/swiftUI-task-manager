@@ -19,3 +19,24 @@ Native SwiftUI iOS task manager with Firebase Authentication and Cloud Firestore
 5. Setup guide and verification checklist.
 
 The local Git repository is independent of GitHub. No remote is configured until you choose one.
+
+## Get started
+
+1. Follow [Firebase setup and Mac run instructions](docs/FIREBASE_SETUP.md).
+2. Put your downloaded `GoogleService-Info.plist` into `FirebaseConfig/` (excluded from Git).
+3. Publish `firestore.rules` in your Firebase project's Firestore Rules tab.
+4. On a Mac with Xcode 16.3+, open `TaskManager.xcodeproj`, choose an iOS 17+ simulator and Run.
+
+Firebase SDK 12.19.3 is pinned in the Xcode project. The iOS app needs no Node, Python, CocoaPods or XcodeGen. A local setup screen appears if Firebase configuration is missing or the bundle ID differs.
+
+See [checks](docs/TESTING.md) and [actual validation status](docs/VALIDATION.md). This app has not yet been compiled or run in Xcode.
+
+## Code map
+
+- `TaskManagerApp.swift`: Firebase bootstrap and signed-in/signed-out routing.
+- `AuthStore.swift`, `AuthView.swift`: email/password account flow.
+- `TaskItem.swift`: task schema and input validation.
+- `TaskStore.swift`: live Firestore reads and CRUD writes scoped to the UID.
+- `TaskListView.swift`, `TaskEditorView.swift`: native task workspace.
+- `firestore.rules`: backend ownership and schema enforcement.
+- `scripts/generate_project.py`: optional maintainer tool for updating source membership in the checked-in Xcode project.

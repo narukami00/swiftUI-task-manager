@@ -1,0 +1,8 @@
+{
+  "name": "taskmanager-backend-checks",
+  "private": true,
+  "scripts": {
+    "test:rules": "firebase emulators:exec --only firestore --project demo-task-manager \"node --test tests/firestore.rules.test.mjs\""
+  },
+  "devDependencies": { "firebase-tools": "15.34.2" }
+}
