@@ -8,13 +8,19 @@
 - The emoji boundary check exposed Firestore emulator limits in UTF-16 units. Swift validation and visible counters were corrected to use `.utf16.count` (60 two-unit emoji fit the 120-unit title limit; 61 do not).
 - Emulator shut down after execution. Port 8187 is configured to avoid an existing service using 8080. No production Firebase project was contacted by these rules tests.
 
-## Not yet verified
+## Outside the Windows checks
 
 - Swift compilation, package resolution and native project import in Xcode. Neither Xcode nor an iOS SDK is installed on this Windows host.
 - Simulator/device UI, session restoration and live Firebase email/password authentication.
 - Physical-device signing and distribution.
 
-Follow `FIREBASE_SETUP.md` on a Mac to complete these checks. The app source is implemented; end-to-end verification is pending.
+Follow `FIREBASE_SETUP.md` to run the acceptance checklist in your own environment.
+
+## Mac handoff — 7 November 2026
+
+- The owner reported running the app on a MacBook. The supplied screenshots show the sign-in screen, task list with active and completed tasks, new and edit forms, and swipe actions.
+- Imported the Mac copy's ARM64 build setting for Debug and Release, along with the shared Xcode workspace and Swift package lockfile. The project generator reproduces the imported build settings.
+- Verified the imported project structure on Windows. The full acceptance checklist and physical-device signing remain unverified.
 
 ## Live Firebase configuration follow-up
 
@@ -23,7 +29,7 @@ Follow `FIREBASE_SETUP.md` on a Mac to complete these checks. The app source is 
 - Read the live Authentication configuration: email sign-in enabled and password required.
 - Successfully deployed `firestore.rules` and `firestore.indexes.json` to `swiftytask-9cf50` using the signed-in Firebase CLI. Firebase compiled and released the rules successfully.
 - Added `.firebaserc` so future CLI operations default to this project. Emulator tests still explicitly target `demo-task-manager`.
-- No live user accounts or task documents were created. Actual iOS sign-in and task operations still need the Xcode first-run checklist.
+- This backend setup check created no live user accounts or task documents.
 
 ## Tooling note
 

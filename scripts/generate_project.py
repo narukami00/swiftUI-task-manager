@@ -28,7 +28,7 @@ obj('sources', f'isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files
 obj('frameworks', f'isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = ({refs(["link:"+s for s in ["FirebaseAuth", "FirebaseFirestore", "FirebaseCore"]])}); runOnlyForDeploymentPostprocessing = 0;')
 obj('resources', f'isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = ({uid("configbuild")},); runOnlyForDeploymentPostprocessing = 0;')
 for mode in ['Debug', 'Release']:
-    common = 'CLANG_ENABLE_MODULES = YES; SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SWIFT_VERSION = 5.0;'
+    common = 'ARCHS = arm64; CLANG_ENABLE_MODULES = YES; SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SWIFT_VERSION = 5.0;'
     if mode == 'Debug':
         common += ' SWIFT_OPTIMIZATION_LEVEL = "-Onone"; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG; DEBUG_INFORMATION_FORMAT = dwarf;'
     else:

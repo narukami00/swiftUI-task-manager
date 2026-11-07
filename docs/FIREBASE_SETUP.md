@@ -36,9 +36,9 @@ On your friend's Mac, clone the repository. Transfer `GoogleService-Info.plist` 
 
 ## 4. Open and run on a Mac
 
-1. Install **Xcode 16.3 or newer** and an iOS 17+ simulator runtime. This project pins **Firebase 12.19.3**, whose manifest requires Swift 6.1. Xcode 16.4 is a suitable starting choice for a compatible macOS Sequoia installation; check the exact macOS point release supported by your chosen Xcode. Newer Xcode releases can require newer macOS. Using the newest Firebase major may also require a newer Xcode, so retain the pinned version for this first run.
+1. Use an Apple silicon Mac with **Xcode 16.3 or newer** and an iOS 17+ simulator runtime. The project builds for ARM64 and pins **Firebase 12.19.3**, whose package manifest requires Swift 6.1.
 2. Double-click **TaskManager.xcodeproj**. This is a native project, not a Swift Playground. No CocoaPods, XcodeGen, Python or Node installation is needed to run the app.
-3. Wait for Xcode to resolve Swift packages. Internet is required on first open. If prompted, allow package resolution. A transitive `Package.resolved` lockfile can be committed after this first successful resolution; none has been fabricated on Windows.
+3. Wait for Xcode to resolve Swift packages. Internet is required on first open. The checked-in `Package.resolved` records the versions resolved during the Mac run.
 4. Select scheme **TaskManager** and an **iPhone simulator** running iOS 17 or later.
 5. Press **Run** (Command-R). A simulator does not require selecting a personal development team.
 6. For a physical iPhone, select the app target → **Signing & Capabilities** → select your own Team, enable automatic signing, select the connected device, and run. If signing requires a different bundle ID, register that ID as another Apple app in Firebase and download its matching plist. Keep the ID in `scripts/generate_project.py` consistent if you use that maintenance script later.
@@ -83,4 +83,4 @@ The app uses native SwiftUI controls, system colors, Dynamic Type and labeled bu
 
 ## 8. Verification status
 
-See `VALIDATION.md` for the checks actually performed. A Windows structural check is not an iOS build. The first Xcode build and the live Firebase acceptance checklist remain required before calling the app verified end to end.
+See `VALIDATION.md` for the Windows checks and the reported Mac run. Use the acceptance checklist to verify your own Firebase and Xcode setup.
