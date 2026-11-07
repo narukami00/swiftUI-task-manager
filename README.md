@@ -1,44 +1,34 @@
 # TaskManager
 
-Native SwiftUI iOS task manager with Firebase Authentication and Cloud Firestore.
+A native SwiftUI task manager for iPhone and iPad. Sign in with an email and password, organize tasks, and pick up where you left off on another device. Firebase Authentication handles accounts, and Cloud Firestore keeps each account's tasks in sync.
 
-## Specification
-- iOS 17+, iPhone and iPad; system light/dark appearance and Dynamic Type.
-- Email/password registration, sign-in, password reset, persistent session and sign-out.
-- Personal live task list, All / Active / Done filters, title search.
-- Add/edit title (1–120 characters), short description (0–500), toggle completion, confirm deletion.
-- Tasks stored at `users/{uid}/tasks/{taskID}` with server timestamps.
-- Ownership and field validation enforced in Firestore rules.
-- Loading, empty, error and missing-configuration states.
+## Screenshots
 
-## Implementation milestones
-1. Repository and native Xcode project.
-2. Firebase initialization and authentication.
-3. Firestore task storage and rules.
-4. SwiftUI task screens.
-5. Setup guide and verification checklist.
+| Sign in | My tasks | New task |
+| :---: | :---: | :---: |
+| <img src="docs/screenshots/sign-in.jpeg" alt="TaskManager sign-in screen with email and password fields" width="220"> | <img src="docs/screenshots/task-list.jpeg" alt="Task list showing one active and one completed task, with filters and search" width="220"> | <img src="docs/screenshots/new-task.jpeg" alt="New task form with title and optional description fields" width="220"> |
+| Sign in, create an account, or reset your password. | Search tasks and switch between All, Active, and Done. | Add a title and an optional description. |
 
-The local Git repository is independent of GitHub. No remote is configured until you choose one.
+| Edit task | Swipe actions |
+| :---: | :---: |
+| <img src="docs/screenshots/edit-task.jpeg" alt="Edit task form with the current title and description filled in" width="220"> | <img src="docs/screenshots/swipe-actions.jpeg" alt="A task row swiped to reveal Edit and Delete buttons" width="220"> |
+| Update an existing task's title and description. | Swipe to edit or delete. Deletion asks for confirmation. |
 
-## Get started
+## Run locally
 
-1. Follow [Firebase setup and Mac run instructions](docs/FIREBASE_SETUP.md).
-2. Put your downloaded `GoogleService-Info.plist` into `FirebaseConfig/` (excluded from Git).
-3. Publish `firestore.rules` in your Firebase project's Firestore Rules tab.
-4. On a Mac with Xcode 16.3+, open `TaskManager.xcodeproj`, choose an iOS 17+ simulator and Run.
+1. Clone this repository on an Apple silicon Mac with Xcode 16.3 or later.
+2. Put your Firebase Apple app's `GoogleService-Info.plist` in `FirebaseConfig/`. The app expects bundle ID `com.rafsan.TaskManager`. Keep the plist outside Git and transfer it separately between machines.
+3. For a new Firebase project, enable Email/Password authentication, create the default Firestore database, and publish [the task security rules](firestore.rules). [Firebase setup guide](docs/FIREBASE_SETUP.md)
+4. Open `TaskManager.xcodeproj` and let Xcode resolve the packages. Select the **TaskManager** scheme and an iOS 17 or later simulator, then press **Run**.
 
-Firebase SDK 12.19.3 is pinned in the Xcode project. The iOS app needs no Node, Python, CocoaPods or XcodeGen. A local setup screen appears if Firebase configuration is missing or the bundle ID differs.
+The project targets ARM64 for device and simulator builds. Firebase Apple SDK 12.19.3 and its resolved dependencies are recorded in the project.
 
-See [checks](docs/TESTING.md) and [actual validation status](docs/VALIDATION.md). This app has not yet been compiled or run in Xcode.
+## How it works
 
-Firebase project `swiftytask-9cf50` is configured locally. Its default Firestore database and Email/Password provider were verified, and the repository rules/index configuration was deployed. The supplied plist matches the app and stays outside Git; copy it separately when moving to the Mac.
+The app restores the Firebase sign-in session at launch. Each signed-in user gets a live task list from `users/{uid}/tasks/{taskID}`. Tasks have a title, optional description, completion state, and server timestamps. Tap the circle next to a task to complete or reopen it.
 
-## Code map
+Firestore rules enforce account ownership and validate task fields. The SwiftUI views handle loading, empty lists, and errors, and use system colors and Dynamic Type.
 
-- `TaskManagerApp.swift`: Firebase bootstrap and signed-in/signed-out routing.
-- `AuthStore.swift`, `AuthView.swift`: email/password account flow.
-- `TaskItem.swift`: task schema and input validation.
-- `TaskStore.swift`: live Firestore reads and CRUD writes scoped to the UID.
-- `TaskListView.swift`, `TaskEditorView.swift`: native task workspace.
-- `firestore.rules`: backend ownership and schema enforcement.
-- `scripts/generate_project.py`: optional maintainer tool for updating source membership in the checked-in Xcode project.
+- [SwiftUI app source](TaskManager/)
+- [Firebase and Mac setup](docs/FIREBASE_SETUP.md)
+- [Local checks](docs/TESTING.md) and [validation record](docs/VALIDATION.md)
